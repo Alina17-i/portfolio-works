@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>html рисунки</title>
+</head>
+<body>
+<div class="first">
+    <h1>Рисунки</h1>
+
+    <p class="no-repeat">
+        Первый абзац. Здесь фон — картинка без повторения, 
+        расположена справа по центру.
+    </p>
+
+    <p class="repeat">
+        Второй абзац. Здесь фон — та же картинка, 
+        но повторяется и заполняет весь абзац.
+    </p>
+
+    <div class="img-box">
+        <img class="d" src="img/f56a35b32349e935f9f67bb5f6051612.jpg" alt="скругленная">
+        <img class="t" src="img/f56a35b32349e935f9f67bb5f6051612.jpg" alt="прозрачная">
+        <img class="e" src="img/f56a35b32349e935f9f67bb5f6051612.jpg" alt="черно-белая">
+</div>
+</div>
+<div class="second">
+    <h2>Одна картинка со смещением</h2>
+    <p>Каждая следующая копия смещена вниз и вправо, но перекрывает предыдущую.</p>
+
+    <div class="image">
+        <img src="img/f56a35b32349e935f9f67bb5f6051612.jpg" alt="копия 1">
+        <img src="img/f56a35b32349e935f9f67bb5f6051612.jpg" alt="копия 2">
+        <img src="img/f56a35b32349e935f9f67bb5f6051612.jpg" alt="копия 3">
+    </div>
+</div>
+<div class="three">
+    <h2>Эффект открытия/закрытия объекта.</h2>
+    <img src="img/Рисунок1.png" alt="рис1"
+    onmouseover="this.src='img/Рисунок2.png'"
+    onmouseout="this.src='img/Рисунок1.png'"
+    >
+</div>
+</body>
+</html>
