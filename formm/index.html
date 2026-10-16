@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Формы</title>
+</head>
+<body>
+    <form name="forma1" class="forma1">
+        <p style="font-weight: 700;">Задание 1: </p>
+        <input type="text" name="t1" size="20" maxlength="40" value="Введите текст">
+    </form>
+
+    <form name="forma2">
+        <p style="font-weight: 700;">Задание 2: </p>
+        <div class="input">
+            <p class="icon">&#128100;</p>
+            <input type="text">
+        </div>
+        <div class="input">
+            <p class="icon">&#128274;</p>
+            <input type="password">
+        </div>
+    </form>
+
+    <form name="forma3"> 
+        <p style="font-weight: 700;">Задание 3: </p>
+        Ваши любимые предметы:<br>
+        <input type="checkbox" checked>Математика 
+        <input type="checkbox" > Литература 
+        <input type="checkbox" > Физическая культура 
+    </form> 
+        
+    <form name="forma4"> 
+        <p style="font-weight: 700;">Задание 4: </p>
+        Укажите ваш пол:<br> 
+        <input type="radio" name="sex" value="man" checked>
+        мужской 
+        <input type="radio" name="sex" value="woman">
+         женский 
+    </form> 
+
+    <h3 style="font-weight: 700;">Задание 5:</h3>
+    <p style="text-align: center;">
+        <button>Кнопка с текстом</button>
+        <button><img class="img" src="img/pinching-hand-emoji-clipart-md.png" alt="1">Кнопка с рисунком</button>
+    </p>
+
+    <form name="forma6"> 
+        <p style="font-weight: 700;">Задание 6: </p>
+    <input type="file" name="load" size="50"> 
+    </form> 
+    
+    <form name="forma7">
+        <p style="font-weight: 700;">Задание 7: </p>
+        <p>Какой язык вы хотите изучать:</p>
+        <select name="language" size="1">
+            <option selected value="html">html</option>
+            <option value="php">php</option>
+            <option value="java">java</option>
+        </select><br>
+        <p>Какое время вы готовы на это потратить:</p><br>
+        <select name="language" size="3">
+            <option selected value="1">1 месяц</option>
+            <option value="2">2 месяца</option>
+            <option value="3">3 месяца</option>
+        </select><br>
+        <p>Какие дни недели для занятий вас устроят:<br> (выбирайте с нажатой клавишей ctrl)</p><br>
+        <select name="language" size="7" multiple>
+            <option selected value="mon">Понедельник</option>
+            <option value="tue">Вторник</option>
+            <option value="wen">Среда</option>
+            <option selected value="thu">Четверг</option>
+            <option value="fri">Пятница</option>
+            <option value="sat">Суббота</option>
+            <option value="san">Воскресенье</option>
+        </select><br>
+        <p>Напишите свои пожелания, чтоб мы смогли их учесть</p>
+        <textarea name="tex" cols="50px" virtual></textarea>
+    </form>
+
+    <form name="forma8" onsubmit="return validate_form();">
+        <p style="font-weight: 700;">Задание 8: </p>
+        <p>Пожалуйства введите ваше имя</p>
+        <label>Ваше имя:
+            <input type="text" name="contact_name">
+        </label>
+        
+        <input type="submit" name="send" value="Отправить данные">
+    </form>
+
+    <form name="calc" class="calc">
+        <p style="font-weight: 700;">Задание 9: </p>
+        <p>Сколько будет 2+2?</p>
+        <input name="answer">
+        <input type="button" 
+               value="Готово" onClick="check();">
+    </form>
+
+    <form name="forma_1">
+        <p style="font-weight: 700;">Задание 10: </p>
+        <input type="button" value="Пуск" name="beg_but" class="b_but" size="50" onclick="beg()">
+        <input type="button" value="Кнопка" name="beg_2" class="btn" size="50" id ="btn" onclick="dvig()">
+    </form>
+
+    <form class="form9" class="form9">
+        <p style="font-weight: 700;">Задание 11: </p>
+        <p>Нажмите “сброс” и приступайте к решению.</p>
+        <button type="button" onclick="resetTest()">сброс</button>
+    
+        <p>1. Сколько будет 2х2?</p>
+        <input type="text" id="a1" value="4">
+        <button type="button" onclick="check(1, 4)">Проверить</button>
+        <span class="res" id="r1"></span>
+    
+        <p>2. Сколько будет 10:2?</p>
+        <input type="text" id="a2" value="6">
+        <button type="button" onclick="check(2, 5)">Проверить</button>
+        <span class="res" id="r2"></span>
+    
+        <p>Чтобы увидеть результаты работы, нажмите кнопку “оценка”.</p>
+        <button type="button" onclick="score()">оценка</button>
+        <p id="total" style="font-weight:bold;"></p>
+    </form>
+    
+    <script src="js.js"></script>
+</body>
+</html>
