@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Drag and Drop</title>
+</head>
+<body>
+    <div class="co">
+    <div class="cont">
+        <div class="item">К</div>
+        <div class="item">Н</div>
+        <div class="item">И</div>
+        <div class="item">О</div>
+        <div class="item">К</div>
+        <div class="item">Т</div>
+        <div class="item">С</div>
+        <div class="item">О</div>
+        </div>
+    <div class="cont1">
+        <div class="item1"></div>
+        <div class="item1"></div>
+        <div class="item1"></div>
+        <div class="item1"></div>
+    </div>
+    </div>
+    <script>
+        let dragged = null;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        const items = document.querySelectorAll('.item');
+        const containers = document.querySelectorAll('.cont, .cont1');
+
+        items.forEach(function (item){
+            item.addEventListener('mousedown', function (e){
+                dragged = item;
+                item.classList.add('dragging');
+                const rect = item.getBoundingClientRect();
+                offsetX  = e.clientX - rect.left;
+                offsetY  = e.clientY - rect.top;
+
+                item.style.position = 'fixed';
+                item.style.left = (e.clientX - offsetX) + 'px';
+                item.style.top = (e.clientY - offsetY) + 'px';
+                item.style.zIndex = 1000;
+                item.style.margin = '0';
+
+                e.preventDefault()
+            });
+        });
+
+        document.addEventListener('mousemove', function (e) {
+            if(!dragged) return;
+            dragged.style.left = (e.clientX - offsetX) + 'px';
+            dragged.style.top = (e.clientY - offsetY) + 'px';
+        });
+
+        document.addEventListener('mouseup', function (e) {
+            if(dragged === null) return;
+            dragged.classList.remove('dragging');
+            dragged.style.display = 'none';
+            const target = document.elementFromPoint(e.clientX, e.clientY);
+            dragged.style.display = '';
+            const targetCell  = target ? target.closest('.item1') : null;
+            const targetCont = target ? target.closest('.cont, .cont1') : null;
+            dragged.style.position = '';
+            dragged.style.left = '';
+            dragged.style.top  = '';
+            dragged.style.zIndex = '';
+            dragged.style.margin = '';
+            if (targetCell) {
+                if (targetCell.children.length === 0) {
+                    targetCell.appendChild(dragged);
+                } else {
+                    document.querySelector('.cont').appendChild(dragged);
+                }
+            } else if (targetCont && targetCont.classList.contains('cont')) {
+                targetCont.appendChild(dragged);
+            } else {
+                document.querySelector('.cont').appendChild(dragged);
+            }
+            dragged = null;
+            checkPuzzle();
+        });
+
+            function checkPuzzle() {
+                const cells = document.querySelectorAll('.item1');
+                let word = '';
+                let filled = 0;
+                cells.forEach(cell => {
+                    if (cell.children.length > 0) {
+                        word += cell.textContent.trim();
+                        filled++;
+                    }
+                });
+                if (filled !== 4) {
+                    window.puzzleSolved = false;
+                    return;
+                }
+                if (word === 'КИНО') {
+                    if (!window.puzzleSolved) {
+                        window.puzzleSolved = true;
+                        alert('Молодец! Слово собрано');
+                    }
+                } else {
+                    window.puzzleSolved = false;
+                }
+        }
+    </script>
+</body>
+</html>
