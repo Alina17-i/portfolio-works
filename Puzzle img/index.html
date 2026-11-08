@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Drag and Drop</title>
+</head>
+<body>
+    <div class="co">
+        <div class="df">
+        <div class="item"><img src="img/4.jpg" alt="4"></div>
+        <div class="item"><img src="img/2.jpg" alt="2"></div>
+        </div>
+    <div class="cont">
+        <div class="item"><img src="img/3.jpg" alt="3"></div>
+        <div class="item cell">?</div>
+        </div>
+    <div class="cont1">
+        <div class="item1"><img src="img/1.jpg" alt="1"></div>
+        <div class="item1"><img src="img/5.webp" alt="5"></div>
+        <div class="item1"><img src="img/6.jpg" alt="6"></div>
+        <div class="item1"><img src="img/7.avif" alt="7"></div>
+    </div>
+    </div>
+    <script>
+        let dragged = null;
+        let offsetX = 0;
+        let offsetY = 0;
+        let originParent = null;
+        let draggedWasCell = false;
+        const CORRECT_ANSWER = "5";
+
+        const items = document.querySelectorAll('.item, .item1');
+        const containers = document.querySelectorAll('.cont');
+
+        items.forEach(function (item) {
+            item.addEventListener('mousedown', function (e) {
+                if (!item.querySelector('img')) return;
+
+                dragged = item;
+                originParent = item.parentElement;
+                draggedWasCell = item.classList.contains('cell');
+                item.classList.add('dragging');
+
+                const rect = item.getBoundingClientRect();
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+
+                item.style.position = 'fixed';
+                item.style.width = rect.width + 'px';
+                item.style.height = rect.height + 'px';
+                item.style.left = (e.clientX - offsetX) + 'px';
+                item.style.top = (e.clientY - offsetY) + 'px';
+                item.style.zIndex = 1000;
+                item.style.pointerEvents = 'none';
+
+                e.preventDefault();
+            });
+        });
+
+        document.addEventListener('mousemove', function (e) {
+            if (!dragged) return;
+            dragged.style.left = (e.clientX - offsetX) + 'px';
+            dragged.style.top = (e.clientY - offsetY) + 'px';
+        });
+
+        document.addEventListener('mouseup', function (e) {
+            if (!dragged) return;
+
+            const current = dragged;
+            current.classList.remove('dragging');
+            current.style.pointerEvents = '';
+
+            current.style.display = 'none';
+            const target = document.elementFromPoint(e.clientX, e.clientY);
+            current.style.display = '';
+
+            current.style.position = '';
+            current.style.left = '';
+            current.style.top = '';
+            current.style.width = '';
+            current.style.height = '';
+            current.style.zIndex = '';
+
+            containers.forEach(c => c.classList.remove('over'));
+
+            const targetCell = target ? target.closest('.item, .item1') : null;
+            const targetCont = target ? target.closest('.cont, .cont1') : null;
+
+            if (draggedWasCell) {
+                const img = current.querySelector('img');
+
+                if (targetCell && targetCell !== current && !targetCell.querySelector('img')) {
+                    clearTextNodes(targetCell);
+                    current.removeChild(img);
+                    targetCell.appendChild(img);
+                } else if (targetCont && targetCont !== originParent) {
+                    current.removeChild(img);
+                    if (targetCont.classList.contains('cont1')) {
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'item1';
+                        wrapper.appendChild(img);
+                        targetCont.appendChild(wrapper);
+                    } else {
+                        targetCont.appendChild(img);
+                    }
+                }
+
+                dragged = null;
+                originParent = null;
+                draggedWasCell = false;
+                checkPuzzle();
+                return;
+            }
+
+            if (targetCell && targetCell !== current) {
+                if (!targetCell.querySelector('img')) {
+                    const img = current.querySelector('img');
+                    clearTextNodes(targetCell);
+                    current.removeChild(img);
+                    targetCell.appendChild(img);
+                    current.remove();
+                } else {
+                    originParent.appendChild(current);
+                }
+            } else if (targetCont) {
+                targetCont.appendChild(current);
+            } else {
+                originParent.appendChild(current);
+            }
+
+            dragged = null;
+            originParent = null;
+            draggedWasCell = false;
+            checkPuzzle();
+        });
+
+        function clearTextNodes(el) {
+            Array.from(el.childNodes).forEach(function (node) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    el.removeChild(node);
+                }
+            });
+        }
+
+        function checkPuzzle() {
+            const cont = document.querySelector('.cont');
+            if (!cont) return;
+
+            const hasCorrect = Array.from(cont.querySelectorAll('img'))
+                .some(img => img.alt === CORRECT_ANSWER);
+
+            if (hasCorrect) {
+                alert('Верно! Весла подходят к лодке.');
+            }
+        }
+    </script>
+</body>
+</html>
