@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Drag and Drop</title>
+</head>
+<body>
+    <p>все элементы могут свободно перемещаться между тремя контейнерами</p>
+    <div class="co first">
+    <div class="cont">
+        <div class="item">Text 1</div>
+        <div class="item">Text 2</div>
+        <div class="item">Text 3</div>
+    </div>
+    <div class="cont"></div>
+    <div class="cont"></div>
+    </div>
+
+    <p>ряд элементов, относящихся к одному классу нельзя перенести в один из контейнеров</p>
+    <div class="co two">
+    <div class="cont">
+        <div class="item">Text 1</div>
+        <div class="item">Text 2</div>
+        <div class="item item1">Text 3</div>
+    </div>
+    <div class="cont"></div>
+    <div class="cont blocked"></div>
+    </div>
+
+    <p>элементы не могут быть возвращены в контейнер, в котором находились первоначально</p>
+    <div class="co free">
+    <div class="cont" id="f1">
+        <div class="item">Text 1</div>
+        <div class="item">Text 2</div>
+        <div class="item">Text 3</div>
+    </div>
+    <div class="cont" id="f2"></div>
+    <div class="cont" id="f3"></div>
+    </div>
+    <script>
+        let dragged = null;
+        let offsetX = 0;
+        let offsetY = 0;
+        let origin = null;
+        let homeId = null;
+
+        const items = document.querySelectorAll('.item');
+        const containers = document.querySelectorAll('.cont');
+
+        items.forEach(function (item) {
+        item.dataset.home = item.closest('.cont').id;
+    });
+
+        items.forEach(function (item){
+            item.addEventListener('mousedown', function (e){
+                dragged = item;
+                origin = item.closest('.cont')
+                homeId = item.dataset.home;
+                item.classList.add('dragging');
+                const rect = item.getBoundingClientRect();
+                offsetX  = e.clientX - rect.left;
+                offsetY  = e.clientY - rect.top;
+
+                item.style.position = 'fixed';
+                item.style.left = (e.clientX - offsetX) + 'px';
+                item.style.top = (e.clientY - offsetY) + 'px';
+                item.style.zIndex = 1000;
+
+                e.preventDefault()
+            });
+        });
+
+        document.addEventListener('mousemove', function (e) {
+            if(!dragged) return;
+            dragged.style.left = (e.clientX - offsetX) + 'px';
+            dragged.style.top = (e.clientY - offsetY) + 'px';
+        });
+
+        document.addEventListener('mouseup', function (e) {
+            if(dragged === null) return;
+            dragged.classList.remove('dragging');
+            dragged.style.display = 'none';
+            const target = document.elementFromPoint(e.clientX, e.clientY);
+            dragged.style.display = '';
+            const cont = target ? target.closest('.cont') : null;
+            dragged.style.position = '';
+            dragged.style.left = '';
+            dragged.style.top  = '';
+            dragged.style.zIndex = '';
+            if (cont) {
+            const block = cont.closest('.co');
+            let allowed = true;
+
+            if (block.classList.contains('two')) {
+                if (dragged.classList.contains('item1') &&
+                    cont.classList.contains('blocked')) {
+                    allowed = false;
+                }
+            }
+            if (block.classList.contains('free')) {
+                if (cont.id === dragged.dataset.home) {
+                    allowed = false;
+                }
+            }
+            if (allowed) {
+                cont.appendChild(dragged);
+            }
+        }
+            dragged = null;
+            origin = null;
+        });
+    </script>
+</body>
+</html>

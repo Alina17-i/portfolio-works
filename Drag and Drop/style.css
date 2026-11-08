@@ -1,0 +1,53 @@
+.first{
+display: flex;
+gap: 30px;
+}
+
+.two{
+display: flex;
+gap: 30px;
+}
+
+.cont {
+height: 300px;
+cursor: default;
+display: flex;
+flex-direction: column;
+gap: 20px;
+width: 100px;
+border: 2px solid red;
+}
+
+.free{
+display: flex;
+gap: 30px;
+}
+
+.item {
+border: 1px solid black;
+margin: 0 auto;
+margin: 15px 20px;
+width: 50px;
+height: 50px;
+cursor: move; 
+user-select: none;
+}
+
+.cont.over {
+cursor: crosshair;
+background: #f0f0f0;
+}
+
+.item.dragging {
+cursor: grabbing;
+opacity: 0.6;
+}
+
+.contt{
+cursor: default;
+display: flex;
+flex-direction: column;
+gap: 20px;
+width: 100px;
+border: 2px solid red;
+}
