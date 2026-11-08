@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas</title>
+</head>
+<body onload="AllImages();"> 
+    <p>Задание презентация 1:</p>
+    <canvas id="canvas" style="border: 2px solid black" width="200" height="200"> </canvas> 
+    <canvas height='200' width='200' style="border: 2px solid black" id='canvas'> Пример </canvas> 
+    <canvas height='200' width='200' style="border: 2px solid black" id='ris1'> Пример </canvas> 
+    <canvas height='200' width='200' style="border: 2px solid black" id='ars'> Пример </canvas> 
+    <canvas height='100' width='300' style="border: 2px solid black" id='curves'> Пример </canvas> 
+    <canvas height='100' width='200' style="border: 2px solid black" id='line'> Пример </canvas> 
+    <canvas height='150' width='300' style="border: 2px solid black" id='squares'> Пример </canvas> 
+    <canvas height='500' width='500' style="border: 2px solid black;" id='home'> Пример </canvas> 
+    <canvas height='900' width='1700' style="border: 2px solid black;" id='home1'> Пример </canvas> </body>
+<script>
+    function AllImages() {
+        ImageCanvas();
+        ImageRis2();
+        ImageRis1();
+        ImageArc();
+        ImageCurves();
+        ImageLine();
+        ImageSquares();
+        ImageHome();
+        renderAll();
+    }
+
+    function ImageCanvas(){    
+        var canvas = document.getElementById("canvas");   
+        var ctx = canvas.getContext("2d");
+        ctx.strokeStyle = "red";
+        ctx.lineWidth = 10; 
+        ctx.strokeRect(20,20,50,50);
+        ctx.fillStyle = "blue";
+        ctx.fillRect(80, 80, 50, 50);
+        ctx.clearRect(40,50,50,50); 
+    } 
+
+    function ImageRis2(){
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(20,20,50,50);
+        ctx.fillStyle = "blue";
+        ctx.fillRect(80, 80, 50, 50);
+        ctx.clearRect(50,50,50,50);
+    }
+
+    function ImageRis1() {
+    var canvas = document.getElementById("ris1");
+    var ctx = canvas.getContext("2d");
+    ctx.beginPath();
+    ctx.moveTo(0,100); 
+    ctx.lineTo(100,0); 
+    ctx.lineTo(200,100); 
+    ctx.lineTo(150,200); 
+    ctx.lineTo(50,200); 
+    ctx.lineTo(0,100); 
+    ctx.stroke(); 
+   }
+
+    function ImageArc(){
+    var canvas = document.getElementById("ars");
+    var ctx = canvas.getContext("2d");
+    ctx.beginPath();
+    ctx.arc(100, 100, 50, 0, 1.5 * Math.PI, false);
+    ctx.lineWidth = 5; 
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+   }
+
+    function ImageCurves(){
+    var canvas = document.getElementById("curves");
+    var ctx = canvas.getContext("2d");
+    ctx.beginPath();
+    ctx.moveTo(10, 15);
+    ctx.bezierCurveTo(75, 55, 175, 20, 250, 15);
+    ctx.moveTo(10, 15);
+    ctx.quadraticCurveTo(100, 100, 250, 15);
+    ctx.stroke();
+   }
+
+    function ImageLine(){
+    var canvas = document.getElementById("line");
+    var ctx = canvas.getContext("2d");
+    ctx.beginPath(); 
+    ctx.lineWidth = 10; 
+    ctx.lineCap = "butt"; 
+    ctx.moveTo(20, 20); 
+    ctx.lineTo(180, 20); 
+    ctx.stroke();
+    
+    ctx.beginPath();
+    ctx.lineCap = "round"; 
+    ctx.moveTo(20, 40); 
+    ctx.lineTo(180, 40); 
+    ctx.stroke();
+    
+    ctx.beginPath();
+    ctx.lineCap = "square"; 
+    ctx.moveTo(20, 60); 
+    ctx.lineTo(180, 60); 
+    ctx.stroke();
+    }
+
+    function ImageSquares(){
+    var canvas = document.getElementById("squares");
+    var ctx = canvas.getContext("2d");
+    ctx.fillText('Ква 1', 10, 50, 80);
+    ctx.lineWidth = 5;
+    ctx.strokeRect(20,20,15,15);
+    ctx.fillText('Ква 2', 50, 70, 250);
+    ctx.lineWidth = 5; 
+    ctx.strokeRect(50,20,30,30);
+    ctx.fillText('Ква 3', 115, 90, 250);
+    ctx.lineWidth = 5; 
+    ctx.strokeRect(100,20,50,50);
+    ctx.fillText('Ква 4', 200, 120, 450);
+    ctx.lineWidth = 5; 
+    ctx.strokeRect(170,20,80,80);
+    }
+
+    function ImageHome(){
+    var canvas = document.getElementById("home");
+    var ctx = canvas.getContext("2d");
+    ctx.lineWidth = 5;
+    ctx.fillStyle = 'yellow'; 
+    ctx.fillRect(150, 250, 200, 200);   
+    ctx.strokeRect(150, 250, 200, 200);
+    ctx.fillStyle = 'orange'; 
+    ctx.beginPath();
+    ctx.moveTo(150, 250);
+    ctx.lineTo(250, 150);
+    ctx.lineTo(350, 250);
+    ctx.closePath();
+    ctx.fill(); 
+    ctx.stroke();
+    ctx.fillStyle = 'brown';
+    ctx.fillRect(220, 350, 60, 100);
+    ctx.strokeRect(220, 350, 60, 100);
+    ctx.fillStyle = 'lightblue'; 
+    ctx.fillRect(290, 350, 50, 50);
+    ctx.strokeRect(290, 350, 50, 50);
+    ctx.strokeRect(290, 350, 25, 25);
+    ctx.strokeRect(290, 375, 25, 25);
+    }
+
+    function ImageHome1(ctx, offsetX, offsetY, scale, labelText){
+    ctx.save(); 
+    ctx.translate(offsetX, offsetY);
+    ctx.scale(scale, scale);
+
+    ctx.lineWidth = 1;
+    ctx.font = "20px Arial";
+    ctx.fillText(labelText, 180, 120, 200);
+    
+    ctx.lineWidth = 5;
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(150, 250, 200, 200);
+    ctx.strokeRect(150, 250, 200, 200);
+
+    ctx.fillStyle = 'orange';
+    ctx.beginPath();
+    ctx.moveTo(150, 250);
+    ctx.lineTo(250, 150);
+    ctx.lineTo(350, 250);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = 'brown';
+    ctx.fillRect(220, 350, 60, 100);
+    ctx.strokeRect(220, 350, 60, 100);
+
+    ctx.fillStyle = 'lightblue';
+    ctx.fillRect(290, 350, 50, 50);
+    ctx.strokeRect(290, 350, 50, 50);
+    ctx.strokeRect(290, 350, 25, 25);
+    ctx.strokeRect(290, 375, 25, 25);
+    ctx.restore();
+    }
+
+    function renderAll(){
+    var canvas = document.getElementById("home1");
+    var ctx = canvas.getContext("2d");
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ImageHome1(ctx, 600, 440, 1.0, "Дом масштаб 1:1");
+    ImageHome1(ctx, 220, 670, 0.5, "Дом масштаб 1:2");
+    ImageHome1(ctx, 900, -20, 2.0, "Дом масштаб 2:1");
+    } 
+</script>
+</html>
