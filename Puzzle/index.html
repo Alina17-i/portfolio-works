@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Drag and Drop</title>
+</head>
+<body>
+    <div class="co">
+    <div class="cont">
+        <div class="item">
+        <img src="img/3.jpg" alt="1"></div>
+        <div class="item"><img src="img/2.jpg" alt="2"></div>
+        <div class="item"><img src="img/1.jpg" alt="3"></div>
+    </div>
+    <div class="cont"></div>
+    </div>
+    <script>
+        let dragged = null;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        const items = document.querySelectorAll('.item');
+        const containers = document.querySelectorAll('.cont');
+
+        items.forEach(function (item){
+            item.addEventListener('mousedown', function (e){
+                dragged = item;
+                origin = item.closest('.cont')
+                homeId = item.dataset.home;
+                item.classList.add('dragging');
+                const rect = item.getBoundingClientRect();
+                offsetX  = e.clientX - rect.left;
+                offsetY  = e.clientY - rect.top;
+
+                item.style.position = 'fixed';
+                item.style.left = (e.clientX - offsetX) + 'px';
+                item.style.top = (e.clientY - offsetY) + 'px';
+                item.style.zIndex = 1000;
+
+                e.preventDefault()
+            });
+        });
+
+        document.addEventListener('mousemove', function (e) {
+            if(!dragged) return;
+            dragged.style.left = (e.clientX - offsetX) + 'px';
+            dragged.style.top = (e.clientY - offsetY) + 'px';
+        });
+
+        document.addEventListener('mouseup', function (e) {
+            if(dragged === null) return;
+            dragged.classList.remove('dragging');
+            dragged.style.display = 'none';
+            const target = document.elementFromPoint(e.clientX, e.clientY);
+            dragged.style.display = '';
+            const cont = target ? target.closest('.cont') : null;
+            dragged.style.position = '';
+            dragged.style.left = '';
+            dragged.style.top  = '';
+            dragged.style.zIndex = '';
+            if (cont) {
+                cont.appendChild(dragged);
+        }
+            dragged = null;
+            checkPuzzle();
+        });
+
+            function checkPuzzle() {
+            const conts = document.querySelectorAll('.cont');
+            const secondCont = conts[1];
+            const itemsInSecond = secondCont.querySelectorAll('.item');
+            if (itemsInSecond.length !== 3) {
+                window.puzzleSolved = false;
+                return;
+            }
+
+            const srcs = Array.from(itemsInSecond).map(item =>
+                item.querySelector('img').getAttribute('src')
+            );
+
+            if (srcs[0] === 'img/1.jpg' &&
+                srcs[1] === 'img/2.jpg' &&
+                srcs[2] === 'img/3.jpg') {
+                if (!window.puzzleSolved) {
+                    window.puzzleSolved = true;
+                    alert('Молодец');
+                }
+            } else {
+                window.puzzleSolved = false;
+            }
+        }
+    </script>
+</body>
+</html>
